@@ -2,6 +2,7 @@ from flask import Flask
 from application.authentication.auth import auth,login_manager
 from application.category.category import category
 from application.authentication.models import db as auth_db
+from application.category.models import db as category_db
 import os
 
 app = Flask(__name__)
@@ -11,6 +12,8 @@ app.secret_key = os.urandom(24)
 with app.app_context():
 	login_manager.init_app(app)
 	auth_db.init_app(app)
+	category_db.init_app(app)
 	auth_db.create_all()
+	category_db.create_all()
 app.register_blueprint(auth, url_prefix='/auth')
 app.register_blueprint(category,url_prefix="/category")
