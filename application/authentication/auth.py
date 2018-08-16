@@ -1,9 +1,10 @@
 
-from flask import Blueprint, render_template,redirect,request
+from flask import Blueprint, render_template,redirect,request,url_for
 from flask_login import LoginManager, UserMixin, login_required,current_user,login_user,logout_user
 from .models import User,db
 from .forms import LoginForm,RegisterForm
 import bcrypt
+from sqlalchemy.exc import IntegrityError
 
 auth = Blueprint('auth', __name__,template_folder="templates/auth")
 login_manager = LoginManager()
@@ -24,11 +25,18 @@ def register():
 			return render_template('register.html',form=form,invalid_form=True)
 		password = form.password.data
 		hashed_password = bcrypt.hashpw(password.encode("utf8"),bcrypt.gensalt())
-		user = User(username=form.username.data,
-					email=form.email.data,
-					password=hashed_password)
-		db.session.add(user)
-		db.session.commit()
+		try:
+			user = User(username=form.username.data,
+						email=form.email.data,
+						password=hashed_password)
+			db.session.add(user)
+			db.session.commit()
+		except IntegrityError:
+			db.session.rollback()
+			if User.query.filter_by(username=form.username.data).first():
+				return render_template('register.html',form=form,taken="Username is taken")
+			else:
+				return render_template('register.html',form=form,taken="Email is taken")
 		login_user(user)
 		return redirect("/index")
 
@@ -51,3 +59,8 @@ def login():
 		else:
 			return render_template('login.html',form=form,
 									invalid_credentials=True)			
+
+@auth.route("/logout")
+def logout():
+	logout_user()
+	return redirect(url_for("auth.login"))
