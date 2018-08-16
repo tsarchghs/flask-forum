@@ -29,4 +29,4 @@ class User(db.Model):
 		return self.id
 
 	def __repr__(self):
-		return '<User %r>' % (self.email)
+		return '<User %r>' % (self.username)
