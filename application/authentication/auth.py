@@ -56,6 +56,7 @@ def login():
 			access = bcrypt.checkpw(password.encode('utf8'),user.password)
 			if access:
 				login_user(user)
+				return redirect("/index")
 		else:
 			return render_template('login.html',form=form,
 									invalid_credentials=True)			
