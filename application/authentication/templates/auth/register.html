@@ -1,0 +1,10 @@
+{% for error in form.errors %}
+	{{error}}
+	<br>
+{% endfor %}
+<form method="POST">
+	Username: <input type="text" name="username"><br>
+	Password: <input type="text" name="password"><br>
+	Email: <input type="text" name="email"><br>
+	<button type="submit">Register</button>
+</form>
