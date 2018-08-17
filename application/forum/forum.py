@@ -4,7 +4,7 @@ from application.category.models import Category
 from .forms import ForumForm
 from .models import Forum
 from .models import db as forum_db
-
+from slugify import slugify
 forum = Blueprint('forum', __name__,template_folder="templates/forum")
 
 @forum.route("/create/<string:category_slug>",methods=["GET","POST"])
@@ -48,6 +48,7 @@ def editForum(forum_slug):
 			if Forum.query.filter_by(name=form.name.data).all():
 				return render_template("editForum.html",form=form,forum=forum,name_taken=True)
 		forum.name = form.name.data
+		forum.slug = slugify(form.name.data)
 		forum.description = form.description.data
 		forum_db.session.commit()
 		return redirect("/")
