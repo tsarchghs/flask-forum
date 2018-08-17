@@ -3,6 +3,9 @@
 		{{error}}
 		<br>
 	{% endfor %}
+	{% if name_taken %}
+		<p>A forum with this name already exists</p>
+	{% endif %}
 	Name : <input type="text" name="name"><br>
 	Description : <input type="text" name="description"><br>
 	<button type="submit">Create forum</button>
