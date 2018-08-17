@@ -1,0 +1,5 @@
+<form method="POST">
+	<h4>Are you sure you want to delete thread {{thread.name}}?</h4>
+	<button type="submit">Yes, I'm sure</button>
+	<a href="{{ url_for('thread.showThread',thread_slug=thread.slug) }}"><button type="button">Take me back</button></a>
+</form>
