@@ -52,3 +52,18 @@ def editForum(forum_slug):
 		forum.description = form.description.data
 		forum_db.session.commit()
 		return redirect("/")
+
+@forum.route("/delete/<string:forum_slug>",methods=["GET","POST"])
+@login_required
+def deleteForum(forum_slug):
+	forum = Forum.query.filter_by(slug=forum_slug).first()
+	if not current_user.account_type == "administrator":
+		abort(401)
+	elif not forum:
+		abort(404)
+	if request.method == "GET":
+		return render_template("delete_forum_confirmation.html",forum=forum)
+	elif request.method == "POST":
+		forum_db.session.delete(forum)
+		forum_db.session.commit()
+		return redirect(url_for("index"))
