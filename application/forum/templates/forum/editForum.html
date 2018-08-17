@@ -1,0 +1,12 @@
+<form method="POST">
+	{% for error in form.errors %}
+		{{error}}
+		<br>
+	{% endfor %}
+	{% if name_taken %}
+		<p>A forum with this name already exists</p>
+	{% endif %}
+	Name : <input type="text" name="name" value="{{forum.name}}"><br>
+	Description : <input type="text" name="description" value="{{forum.description}}"><br>
+	<button type="submit">Edit forum</button>
+</form>
