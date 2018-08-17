@@ -1,6 +1,7 @@
 from flask import Flask
 from application.authentication.auth import auth,login_manager
 from application.category.category import category
+from application.forum.forum import forum
 from application.authentication.models import db as auth_db
 from application.category.models import db as category_db
 import os
@@ -17,3 +18,4 @@ with app.app_context():
 	category_db.create_all()
 app.register_blueprint(auth, url_prefix='/auth')
 app.register_blueprint(category,url_prefix="/category")
+app.register_blueprint(forum,url_prefix="/forum")
