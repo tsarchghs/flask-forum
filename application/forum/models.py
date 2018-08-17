@@ -14,5 +14,5 @@ class Forum(db.Model):
 		self.category_id = category_id
 		self.name = name
 		self.slug = slugify(name)
-		self.description = self.description
+		self.description = description
 
