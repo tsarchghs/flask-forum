@@ -13,6 +13,10 @@ login_manager = LoginManager()
 def load_user(ID):
 	return User.query.get(ID)
 
+@login_manager.unauthorized_handler
+def unauthorized_callback():
+    return redirect(f'{url_for("auth.login")}?next={request.path}')
+
 @auth.route("/register",methods=["GET","POST"])
 def register():
 	if current_user.is_authenticated:
