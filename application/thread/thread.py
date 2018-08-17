@@ -42,10 +42,10 @@ def createThread(forum_slug):
 @login_required
 def editThread(thread_slug):
 	thread = Thread.query.filter_by(slug=thread_slug).first()
-	if not thread.user_id == current_user.id:
-		abort(401)
-	elif not thread:
+	if not thread:
 		abort(404)
+	elif not thread.user_id == current_user.id:
+		abort(401)
 	form = ThreadForm(request.form)
 	if request.method == "GET":
 		return render_template("editThread.html",form=form,thread=thread)

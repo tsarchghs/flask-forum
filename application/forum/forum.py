@@ -46,10 +46,10 @@ def createForum(category_slug):
 @login_required
 def editForum(forum_slug):
 	forum = Forum.query.filter_by(slug=forum_slug).first()
-	if not current_user.account_type == "administrator":
-		abort(401)
-	elif not forum:
+	if not forum:
 		abort(404)
+	elif not current_user.account_type == "administrator":
+		abort(401)
 	form = ForumForm(request.form)
 	if request.method == "GET":
 		return render_template("editForum.html",form=form,forum=forum)
