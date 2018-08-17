@@ -37,3 +37,23 @@ def createThread(forum_slug):
 		thread_db.session.add(thread)
 		thread_db.session.commit()
 		return redirect("/showThread")
+
+@thread.route("/edit/<string:thread_slug>",methods=["GET","POST"])
+@login_required
+def editThread(thread_slug):
+	thread = Thread.query.filter_by(slug=thread_slug).first()
+	if not thread.user_id == current_user.id:
+		abort(401)
+	elif not thread:
+		abort(404)
+	form = ThreadForm(request.form)
+	if request.method == "GET":
+		return render_template("editThread.html",form=form,thread=thread)
+	elif request.method == "POST":
+		if not form.validate():
+			return render_template("editThread.html",form=form,thread=thread)
+		thread.title = form.title.data
+		thread.slug = slugify(form.title.data)
+		thread.description = form.description.data
+		thread_db.session.commit()
+		return redirect(url_for("thread.showThread",thread_slug=thread.slug))
