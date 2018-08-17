@@ -10,6 +10,7 @@ class Thread(db.Model):
 	forum_id = db.Column(db.Integer,db.ForeignKey(Forum.id))
 	user_id = db.Column(db.Integer,db.ForeignKey(User.id))
 	title = db.Column(db.String(150))
+	slug = db.Column(db.String)
 	description = db.Column(db.String)
 	created_on = db.Column('created_on' , db.DateTime,default=datetime.utcnow())
 
