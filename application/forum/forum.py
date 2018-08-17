@@ -5,7 +5,19 @@ from .forms import ForumForm
 from .models import Forum
 from .models import db as forum_db
 from slugify import slugify
+from application.thread.models import Thread
+
 forum = Blueprint('forum', __name__,template_folder="templates/forum")
+
+@forum.route("/<string:forum_slug>")
+def showForum(forum_slug):
+	forum = Forum.query.filter_by(slug=forum_slug).first()
+	if not forum:
+		abort(404)
+	forum_threads = Thread.query.filter_by(forum_id=forum.id).all()
+	return render_template("showForum.html",
+							forum=forum,
+							forum_threads=forum_threads)
 
 @forum.route("/create/<string:category_slug>",methods=["GET","POST"])
 @login_required
