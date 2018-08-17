@@ -1,0 +1,9 @@
+<form method="POST">
+	{% for error in form.errors %}
+		{{error}}
+		<br>
+	{% endfor %}
+	Title: <input type="text" name="title">
+	Description: <input type="text" name="description">
+	<button type="submit">Create thread</button>
+</form>
