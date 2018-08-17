@@ -10,7 +10,8 @@ class Forum(db.Model):
 	name = db.Column(db.String,unique=True)
 	slug = db.Column(db.String,unique=True)
 	description = db.Column(db.String)
-	def __init__(self,name,description):
+	def __init__(self,category_id,name,description):
+		self.category_id = category_id
 		self.name = name
 		self.slug = slugify(name)
 		self.description = self.description
