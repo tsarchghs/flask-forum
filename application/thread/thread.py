@@ -9,6 +9,14 @@ from slugify import slugify
 thread = Blueprint("thread",__name__,
 					template_folder="templates/thread")
 
+@thread.route("/<string:thread_slug>")
+def showThread(thread_slug):
+	thread = Thread.query.filter_by(slug=thread_slug).first()
+	if not thread:
+		abort(404)
+	return render_template("showThread.html",thread=thread)
+	
+
 @thread.route("/create/<string:forum_slug>",methods=["GET","POST"])
 @login_required
 def createThread(forum_slug):
