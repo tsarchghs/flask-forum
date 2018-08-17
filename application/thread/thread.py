@@ -4,6 +4,7 @@ from application.forum.models import Forum
 from .forms import ThreadForm
 from .models import db as thread_db
 from .models import Thread
+from slugify import slugify
 
 thread = Blueprint("thread",__name__,
 					template_folder="templates/thread")
@@ -23,6 +24,7 @@ def createThread(forum_slug):
 		thread = Thread(forum_id=forum.id,
 						user_id=current_user.id,
 						title=form.title.data,
+						slug=slugify(form.title.data),
 						description=form.description.data)
 		thread_db.session.add(thread)
 		thread_db.session.commit()
