@@ -61,9 +61,8 @@ def login():
 			if access:
 				login_user(user)
 				return redirect("/index")
-		else:
-			return render_template('login.html',form=form,
-									invalid_credentials=True)			
+		return render_template('login.html',form=form,
+								invalid_credentials=True)			
 
 @auth.route("/logout")
 def logout():
