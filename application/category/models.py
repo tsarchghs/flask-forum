@@ -8,10 +8,9 @@ class Category(db.Model):
 	name = db.Column(db.String)
 	slug = db.Column(db.String)
 
-	def __init__(self,id,name):
-		self.id = id
+	def __init__(self,name):
 		self.name = name
-		self.slug =  slugify(self.name)
+		self.slug =  slugify(name)
 
 	def __repr__(self):
 		return f"<Category {self.id}>"
