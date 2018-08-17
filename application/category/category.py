@@ -53,4 +53,17 @@ def editCategory(slug):
 			category_db.session.commit()
 			return redirect(url_for("category.showCategory",slug=category.slug))
 
-			
+@category.route("/delete/<slug>",methods=["GET","POST"])
+@login_required
+def deleteCategory(slug):
+	category = Category.query.filter_by(slug=slug).first()
+	if not category:
+		abort(404)
+	if current_user.account_type != "administrator":
+		abort(401)
+	if request.method == "GET":
+		return render_template("delete_category_confirmation.html",category=category)
+	elif request.method == "POST":
+		category_db.session.delete(category)
+		category_db.session.commit()
+		return redirect("/index")
