@@ -1,5 +1,5 @@
 <form method="POST">
 	<h3>Are you sure you want to delete category {{category.name}}?</h3>
 	<button type="submit">Yes</button>
-	<a href="/index"><button>Nope take me back</button></a>
+	<a href="{{ url_for('index') }}"><button type="button">Take me back</button></a>
 </form>
