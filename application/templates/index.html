@@ -1,8 +1,8 @@
-<ul><h3>Flask-Forum</h3>
-{% for category,forums in category_forums.items() %}
+<h3>Flask-Forum</h3>
+{% for category,forum_threads in category_forums.items() %}
 	<ul>{{category.name}}
-		{% for forum in forums %}
-			<li>{{forum.name}} - {{forum.description}}</li>
+		{% for forum,threads in forum_threads.items() %}
+		<li>{{forum.name}} - {{threads|length}}</li>
 		{% endfor %}
 	</ul>
 {% endfor %}
