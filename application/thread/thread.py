@@ -36,7 +36,7 @@ def createThread(forum_slug):
 						description=form.description.data)
 		thread_db.session.add(thread)
 		thread_db.session.commit()
-		return redirect("/showThread")
+		return redirect(url_for("thread.showThread",thread_slug=thread.slug))
 
 @thread.route("/edit/<string:thread_slug>",methods=["GET","POST"])
 @login_required
