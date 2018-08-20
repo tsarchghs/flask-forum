@@ -1,0 +1,8 @@
+<form method="POST">
+	{% for error in form.errors %}
+		{{error}}
+		<br>
+	{% endfor %}
+	Content: <textarea type="text" name="content"></textarea>
+	<button type="submit">Post</button>
+</form>
