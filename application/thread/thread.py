@@ -1,10 +1,14 @@
 from flask import Blueprint,abort,request,render_template,url_for,redirect
 from flask_login import current_user,login_required
 from application.forum.models import Forum
+from application.post.models import Post
+from application.post.forms import PostForm
+from application.authentication.models import User
 from .forms import ThreadForm
 from .models import db as thread_db
 from .models import Thread
 from slugify import slugify
+from collections import OrderedDict
 
 thread = Blueprint("thread",__name__,
 					template_folder="templates/thread")
@@ -14,7 +18,15 @@ def showThread(thread_slug):
 	thread = Thread.query.filter_by(slug=thread_slug).first()
 	if not thread:
 		abort(404)
-	return render_template("showThread.html",thread=thread)
+	post_form = PostForm(request.form)
+	posts = Post.query.filter_by(thread_id=thread.id).all()
+	post_user = OrderedDict()
+	for post in posts:
+		post_user[post] = User.query.get_or_404(post.user_id)
+	return render_template("showThread.html",
+							thread=thread,
+							post_user=post_user,
+							post_form=post_form)
 	
 
 @thread.route("/create/<string:forum_slug>",methods=["GET","POST"])
