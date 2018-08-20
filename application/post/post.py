@@ -35,7 +35,9 @@ def editPost(post_id):
 	if not post.user_id == current_user.id:
 		abort(401)
 	post_form = PostForm(request.form)
-	if request.method == "POST":
+	if request.method == "GET":
+		return render_template("editPost.html",post_form=post_form,post=post)
+	elif request.method == "POST":
 		if not post_form.validate():
 			return render_template("editPost.html",post_form=post_form,post=post)
 		post.content = post_form.content.data
