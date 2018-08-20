@@ -1,5 +1,5 @@
-<form method="POST">
-	{% for error in form.errors %}
+<form method="POST" action="{{ url_for('post.createPost', thread_slug=thread.slug) }}">
+	{% for error in post_form.errors %}
 		{{error}}
 		<br>
 	{% endfor %}

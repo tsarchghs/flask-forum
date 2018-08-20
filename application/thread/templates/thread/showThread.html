@@ -1,1 +1,13 @@
-{{thread}}
+Thread title: {{thread.title}}<br>
+Thread description: {{thread.description}}
+<br>
+Posts:<br>
+<ul>
+	{% for post,user in post_user.items() %}
+		<li>
+			{{user.username}}-{{post.content}} - {{post.created_on}}
+			<br>
+		</li>
+	{% endfor %}
+</ul>
+{% include 'createPost.html' %}
