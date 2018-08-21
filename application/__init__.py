@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask,request
 from application.authentication.auth import auth,login_manager
 from application.category.category import category
 from application.forum.forum import forum
@@ -9,7 +9,7 @@ from application.category.models import db as category_db
 from application.forum.models import db as forum_db
 from application.thread.models import db as thread_db
 from application.post.models import db as post_db
-
+from application.category.cbv import CreateCategory
 import os
 
 app = Flask(__name__)
@@ -31,6 +31,9 @@ with app.app_context():
 	forum_db.create_all()
 	thread_db.create_all()
 	post_db.create_all()
+
+	app.add_url_rule('createCategory', view_func=CreateCategory.as_view('CreateCategory'))
+
 
 app.register_blueprint(auth, url_prefix='/auth')
 app.register_blueprint(category,url_prefix="/category")
