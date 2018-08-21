@@ -3,13 +3,12 @@ from flask_login import login_required,current_user
 from flask.views import MethodView
 
 class CreateView(MethodView):
-	def __init__(self,decorators,template_name,form,model,db,url):
+	def __init__(self,decorators,template_name,form,model,db):
 		self.decorators = decorators
 		self.template_name = template_name
 		self.form = form
 		self.model = model
 		self.db = db
-		self.url = url
 
 	def get(self):
 		form = self.form(request.form)
