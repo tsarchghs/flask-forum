@@ -32,7 +32,7 @@ with app.app_context():
 	thread_db.create_all()
 	post_db.create_all()
 
-	app.add_url_rule('/createCategory', view_func=CreateCategory.as_view('CreateCategory'))
+	app.add_url_rule('/CreateCategory', view_func=CreateCategory.as_view('CreateCategory'))
 
 
 app.register_blueprint(auth, url_prefix='/auth')
