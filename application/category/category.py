@@ -16,22 +16,6 @@ def showCategory(slug):
 		abort(404)
 	return render_template("showCategory.html",category=category)
 
-@category.route("/create",methods=["GET","POST"])
-@login_required
-def createCategory():
-	if current_user.account_type != "administrator":
-		abort(401)
-	form = CategoryForm(request.form)
-	if request.method == "GET":
-		return render_template("createCategory.html",form=form)
-	else:
-		if request.method == "POST":
-			if not form.validate():
-				return render_template("createCategory.html",form=form)
-			category = Category(form.name.data)
-			category_db.session.add(category)
-			category_db.session.commit()
-			return redirect(url_for("category.showCategory",slug=category.slug))
 
 @category.route("/edit/<slug>",methods=["GET","POST"])
 @login_required
