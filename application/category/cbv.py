@@ -37,7 +37,7 @@ class CreateCategory(CreateView):
 		self.form = CategoryForm
 		self.model = Category
 		self.db = category_db
-		self.url = "category.showCategory"
+		self.redirect_url = "category.showCategory"
 
 	def get_post_redirect_args(self,model_instance):
 		#return url_for("category.showCategory",category_slug=)
