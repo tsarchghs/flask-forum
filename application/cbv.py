@@ -33,7 +33,7 @@ class CreateView(MethodView):
 		self.db.session.add(model_instance)
 		self.db.session.commit()
 		args = self.get_post_redirect_args(model_instance)
-		return redirect(url_for(self.url,**args))
+		return redirect(url_for(self.redirect_url,**args))
 
 """for field in self.model.__table__.columns:
 args[model_instance.field] = form.field.data
