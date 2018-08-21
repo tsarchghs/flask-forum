@@ -3,12 +3,16 @@ from flask_login import login_required,current_user
 from flask.views import MethodView
 
 class CreateView(MethodView):
-	def __init__(self,decorators,template_name,form,model,db):
+	def __init__(self,decorators,template_name,form,model,db,url):
 		self.decorators = decorators
 		self.template_name = template_name
 		self.form = form
 		self.model = model
 		self.db = db
+		self.url = url
+
+	def get_post_redirect_args(self,model_instance):
+		raise NotImplementedError
 
 	def get(self):
 		form = self.form(request.form)
@@ -25,4 +29,5 @@ class CreateView(MethodView):
 		model_instance = self.model(form.name.data)
 		self.db.session.add(model_instance)
 		self.db.session.commit()
-		return redirect(url_for("category.showCategory",slug=model_instance.slug))
+		args = self.get_post_redirect_args(model_instance)
+		return redirect(url_for(self.url,**args))
