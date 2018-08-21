@@ -19,29 +19,6 @@ def showForum(forum_slug):
 							forum=forum,
 							forum_threads=forum_threads)
 
-@forum.route("/create/<string:category_slug>",methods=["GET","POST"])
-@login_required
-def createForum(category_slug):
-	category = Category.query.filter_by(slug=category_slug).first()
-	if not current_user.account_type == "administrator":
-		abort(401)
-	elif not category:
-		abort(404)
-	form = ForumForm(request.form)
-	if request.method == "GET":
-		return render_template("createForum.html",form=form)
-	elif request.method == "POST":
-		if not form.validate():
-			return render_template("createForum.html",form=form)
-		elif Forum.query.filter_by(name=form.name.data).all():
-			return render_template("createForum.html",form=form,name_taken=True)
-		forum = Forum(category_id=category.id,
-					  name=form.name.data,
-					  description=form.description.data)
-		forum_db.session.add(forum)
-		forum_db.session.commit()
-		return redirect("/")
-
 @forum.route("/edit/<string:forum_slug>",methods=["GET","POST"])
 @login_required
 def editForum(forum_slug):
