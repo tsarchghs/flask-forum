@@ -9,12 +9,14 @@ from collections import OrderedDict
 @app.route("/")
 def index():
     categories = Category.query.all()
-    dict_ = OrderedDict()
-    forum_threads = OrderedDict()
+    category_forums_threads = OrderedDict()
     for category in categories:
-    	category_forums = Forum.query.filter_by(category_id=category.id).all()
-    	for forum in category_forums:
-    		thread_db_session = thread_db.session
-    		forum_threads[forum] = thread_db_session.query(Thread.forum_id.in_([forum.id for forum in category_forums])).all()
-    	dict_[category] = forum_threads
-    return render_template("index.html",category_forums=dict_)
+        forum_threads = OrderedDict()
+        category_forums = Forum.query.filter_by(category_id=category.id).all()
+        for forum in category_forums:
+            threads = Thread.query.filter_by(forum_id=forum.id).all()
+            forum_threads[forum] = threads
+        category_forums_threads[category] = forum_threads
+    return render_template("index.html",category_forums_threads=category_forums_threads)
+
+
